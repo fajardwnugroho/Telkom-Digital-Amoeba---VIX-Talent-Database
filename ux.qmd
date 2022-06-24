@@ -1,0 +1,53 @@
+---
+title: "Telkom Digital Amoeba - UX Researcher"
+toc: false
+---
+
+## Dashboard for Company & Talent
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(reactable)
+library(googlesheets4)
+library(googleAuthR)
+library(tidyverse)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+df_ux_telkom <- read_sheet("https://docs.google.com/spreadsheets/d/1jdzxLszCltBIudkOe6usxMLQwFZpIUU3fDdwvSyc7Q0", range = "Telkom Digital Amoeba - UX Researcher")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+df_ux_telkom <- df_ux_telkom |> 
+  mutate(`Total Time (hour)` = round(`Total Time (hour)`, digits = 2))
+
+df_ux_telkom <- df_ux_telkom |> 
+  filter(State %in% c("in_progress", "completed"))
+
+df_ux_telkom <- df_ux_telkom |> 
+  filter(`Batch VIX` %in% c("May", "June"))
+
+df_ux_telkom_clean <- df_ux_telkom[ , c("Name", "Email", "Phone Number", "Batch VIX", "State", "Advance Task Submission File 1", "Total Score", "Total Time (hour)")]
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+sticky_style <- list(backgroundColor = "#f7f7f7")
+
+
+reactable(df_ux_telkom_clean, wrap = FALSE,
+  resizable = TRUE,
+  bordered = TRUE,
+  defaultSorted = list(`Batch VIX` = "asc",
+                       `State` = "asc",
+                       `Total Score` = "desc", 
+                       `Total Time (hour)` = "asc"),
+  filterable = TRUE,
+  fullWidth = TRUE,
+  defaultPageSize = 50,
+  minRows = 10,
+          columns = list(`Advance Task Submission File 1` = colDef(html = TRUE, cell = function(value, index) {
+      sprintf('<a href="%s" target="_blank">%s</a>', df_ux_telkom_clean$`Advance Task Submission File 1`[index], value)
+    })
+  ))
+```
