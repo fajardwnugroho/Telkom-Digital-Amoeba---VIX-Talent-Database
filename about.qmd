@@ -5,4 +5,4 @@ toc: false
 
 ## Program :
 
-1.  [Campaign & Digital Performance Officer](https://jakmall-vix-talent-database.netlify.app/cdpo.html "Campaign & Digital Performance Officer")
+1.  [UX Researcher](https://telkom-vix-talent-database.netlify.app/ux.html "UX Researcher")
